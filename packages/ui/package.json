@@ -2,13 +2,14 @@
   "name": "@repo/ui",
   "version": "0.0.0",
   "exports": {
-    "./counter": "./components/counter.ts",
-    "./header": "./components/header.ts",
-    "./setup-counter": "./utils/counter.ts"
+    "./counter": "./dist/components/counter.js",
+    "./header": "./dist/components/header.js",
+    "./setup-counter": "./dist/utils/counter.js"
   },
   "license": "MIT",
   "scripts": {
-    "lint": "eslint \"**/*.ts\""
+    "lint": "eslint \"**/*.ts\"",
+    "build": "tsc"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
