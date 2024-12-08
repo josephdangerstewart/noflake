@@ -1,12 +1,16 @@
 {
   "name": "noflake",
-  "version": "0.1.0",
-  "description": "A system for managing and triaging test flakes.",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
-  "author": "Joseph Stewart",
-  "license": "MIT",
-  "packageManager": "pnpm@9.15.0+sha256.09a8fe31a34fda706354680619f4002f4ccef6dadff93240d24ef6c831f0fd28"
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "turbo": "^2.3.3"
+  },
+  "packageManager": "pnpm@8.15.6"
 }
