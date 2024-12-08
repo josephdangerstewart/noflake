@@ -1,0 +1,63 @@
+[info(version: 0.1.0)]
+service NoFlake;
+
+method createProject
+{
+}:
+{
+	project: Project;
+}
+
+method submitTestSuiteResult
+{
+	result: TestSuiteResult;
+}:
+{
+}
+
+data Project
+{
+	projectId: string;
+}
+
+data TestSuiteResult
+{
+	/// The sha of the git commit for which the test suite was run.
+	commitSha: string;
+
+	/// The project this run is associated with
+	projectId: string;
+
+	/// The results of the tests that were run for this suite.
+	results: TestResult[];
+}
+
+data TestResult
+{
+	/// An opaque token identifying this test.
+	testId: string;
+
+	/// The ending result of the test.
+	status: TestResultStatus;
+
+	/// Null if the test passed.
+	errors: string[];
+
+	/// A value of 1 indicates certainty that this test flaked (e.g. the test failed, was retried, and passed).
+	/// A value of 0 indicates either the test did not flake (e.g. the test passed on the first try) or it is unknown if the test flaked or not.
+	/// Values in between indicate the test may have flaked.
+	[validate(value: 0..1)]
+	flakeConfidence: decimal;
+}
+
+data TestId
+{
+	testId: string;
+	version: string;
+}
+
+enum TestResultStatus
+{
+	pass,
+	fail
+}
