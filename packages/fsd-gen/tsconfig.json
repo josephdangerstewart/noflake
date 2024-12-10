@@ -1,0 +1,9 @@
+{
+  "extends": "@noflake/typescript-config/base.json",
+  "include": ["."],
+  "exclude": ["node_modules", "dist/**"],
+  "compilerOptions": {
+    "outDir": "dist",
+    "esModuleInterop": false
+  }
+}

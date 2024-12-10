@@ -5,13 +5,8 @@ import fs from 'fs/promises';
 
 const exec = promisify(execSync);
 
-console.log('cwd', process.cwd());
-
 const fsdPath = path.join('fsd', 'NoFlake.fsd');
-const outDir = path.join('fsd-temp');
-const packages = path.join('packages');
+const nodeApiOutDir = path.join('packages', 'fsd-gen');
 
-await fs.mkdir(outDir, { recursive: true });
-await exec(`dotnet tool run fsdgenjs ${fsdPath} ${outDir} --typescript --disable-eslint --express`);
-
-await fs.rename(path.join(outDir, 'noFlakeTypes.ts'), path.join(packages, 'interface', 'noFlakeTypes.ts'));
+await fs.mkdir(nodeApiOutDir, { recursive: true });
+await exec(`dotnet tool run fsdgenjs ${fsdPath} ${nodeApiOutDir} --typescript --disable-eslint --express`);
