@@ -6,7 +6,7 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "codegen": "tsx ./scripts/generateFsd.mts",
-    "newPackage": "turbo gen basic",
+    "newPackage": "turbo gen basic --args",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {

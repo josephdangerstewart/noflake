@@ -1,10 +1,8 @@
 {
-  "name": "@noflake/fsd-gen",
+  "name": "@noflake/node-api",
   "version": "0.1.0",
   "exports": {
-    ".": "./dist/noFlakeTypes.js",
-    "./client": "./dist/noFlake.js",
-    "./server": "./dist/noFlakeServer.js"
+    ".": "./dist/index.js"
   },
   "license": "MIT",
   "scripts": {
@@ -18,10 +16,7 @@
     "typescript": "5.5.4"
   },
   "dependencies": {
-    "@types/body-parser": "^1.19.5",
-    "@types/express": "^5.0.0",
-    "body-parser": "^1.20.3",
-    "express": "^4.21.2",
+    "@noflake/fsd-gen": "workspace:*",
     "facility-core": "^2.2.0"
   }
 }
