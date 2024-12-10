@@ -6,9 +6,11 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "codegen": "tsx ./scripts/generateFsd.mts",
+    "newPackage": "turbo gen basic",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@turbo/gen": "^2.3.3",
     "@types/node": "20.10.0",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
