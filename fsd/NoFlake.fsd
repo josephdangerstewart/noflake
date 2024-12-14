@@ -18,6 +18,7 @@ method submitTestSuiteResult
 data Project
 {
 	projectId: string;
+	name: string;
 }
 
 data TestSuiteResult

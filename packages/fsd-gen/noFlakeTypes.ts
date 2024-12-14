@@ -29,6 +29,8 @@ export interface ISubmitTestSuiteResultResponse {
 
 export interface IProject {
 	projectId?: string;
+
+	name?: string;
 }
 
 export interface ITestSuiteResult {
