@@ -4,36 +4,46 @@ export async function up(db: Kysely<any>): Promise<void> {
 	await db.schema
 		.createTable('projects')
 		.ifNotExists()
+
 		.addColumn('id', 'bigint', (col) => col.primaryKey().autoIncrement())
-		.addColumn('name', 'varchar(255)', (col) => col.notNull())
+		.addColumn('name', 'varchar(500)', (col) => col.notNull())
+
 		.execute();
 
 	await db.schema
-		.createTable('testSuiteRuns')
+		.createTable('testSuiteResults')
 		.ifNotExists()
+
 		.addColumn('id', 'bigint', (col) => col.primaryKey().autoIncrement())
 		.addColumn('projectId', 'bigint', (col) => col.notNull())
 		.addColumn('commitSha', 'varchar(40)')
+		.addColumn('externalId', 'varchar(500)', (col) => col.notNull())
+		.addColumn('runDate', 'datetime', (col) => col.notNull())
+
 		.addForeignKeyConstraint('projectIdForeign', ['projectId'], 'projects', [
 			'id',
 		])
+
 		.execute();
 
 	await db.schema
-		.createTable('testRuns')
+		.createTable('testResults')
 		.ifNotExists()
+
 		.addColumn('id', 'bigint', (col) => col.primaryKey().autoIncrement())
-		.addColumn('externalId', 'varchar(255)', (col) => col.unique().notNull())
-		.addColumn('suiteRunId', 'bigint', (col) => col.notNull())
+		.addColumn('externalId', 'varchar(500)', (col) => col.notNull())
+		.addColumn('suiteResultId', 'bigint', (col) => col.notNull())
 		.addColumn('status', 'integer', (col) => col.notNull())
 		.addColumn('errors', 'json')
 		.addColumn('flakeConfidence', 'decimal')
+
 		.addForeignKeyConstraint(
 			'suiteRunIdForeign',
-			['suiteRunId'],
-			'testSuiteRuns',
+			['suiteResultId'],
+			'testSuiteResults',
 			['id'],
 		)
+
 		.execute();
 }
 
