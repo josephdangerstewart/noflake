@@ -1,6 +1,6 @@
 {
   "extends": "@noflake/typescript-config/node.json",
-  "include": ["."],
+  "include": [".", "../errors/src"],
   "exclude": ["node_modules", "dist/**"],
   "compilerOptions": {
     "outDir": "dist",

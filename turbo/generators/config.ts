@@ -1,6 +1,8 @@
 import { PlopTypes } from '@turbo/gen';
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import fs from 'fs';
+import path from 'path';
 
 export default function generator(plop: PlopTypes.NodePlopAPI): void {
 	plop.setGenerator('basic', {
@@ -25,6 +27,16 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
 
 					return true;
 				},
+			},
+			{
+				type: 'list',
+				name: 'tsconfig',
+				message: 'Which build environment to target?',
+				choices: [
+					'cross-platform',
+					'node',
+					'vite',
+				],
 			},
 		],
 		actions: [

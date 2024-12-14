@@ -1,5 +1,5 @@
 {
-  "extends": "@noflake/typescript-config/{{tsconfig}}.json",
+  "extends": "@noflake/typescript-config/cross-platform.json",
   "include": ["."],
   "exclude": ["node_modules", "dist/**"],
   "compilerOptions": {

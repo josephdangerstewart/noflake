@@ -4,11 +4,11 @@ import type {
 	INoFlake,
 	ISubmitTestSuiteResultResponse,
 } from '@noflake/fsd-gen';
+import { validateRequiredProperties } from '@noflake/errors';
 import { IServiceResult } from 'facility-core';
 import { NoFlakeApiOptions } from './NoFlakeApiOptions';
 import { getDatabase } from './database';
 import { ProjectService } from './services';
-import { validateRequiredProperties } from './services/errors';
 
 export class NoFlakeApi implements INoFlake {
 	private projectService: ProjectService;

@@ -1,6 +1,6 @@
 import { IProject } from '@noflake/fsd-gen';
+import { validateRequiredProperties } from '@noflake/errors';
 import { Database } from '../database';
-import { validateRequiredProperties } from './errors';
 
 export class ProjectService {
 	private database: Database;

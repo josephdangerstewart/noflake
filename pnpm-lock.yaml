@@ -27,6 +27,25 @@ importers:
         specifier: ^2.3.3
         version: 2.3.3
 
+  packages/errors:
+    dependencies:
+      facility-core:
+        specifier: ^2.2.0
+        version: 2.2.0
+    devDependencies:
+      '@noflake/eslint-config':
+        specifier: workspace:^
+        version: link:../eslint-config
+      '@noflake/typescript-config':
+        specifier: workspace:^
+        version: link:../typescript-config
+      eslint:
+        specifier: ^8.57.0
+        version: 8.57.0
+      typescript:
+        specifier: 5.5.4
+        version: 5.5.4
+
   packages/eslint-config:
     dependencies:
       '@typescript-eslint/eslint-plugin':
@@ -58,10 +77,10 @@ importers:
         version: 2.2.0
     devDependencies:
       '@noflake/eslint-config':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../eslint-config
       '@noflake/typescript-config':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../typescript-config
       eslint:
         specifier: ^8.57.0
@@ -72,8 +91,11 @@ importers:
 
   packages/node-api:
     dependencies:
+      '@noflake/errors':
+        specifier: workspace:^
+        version: link:../errors
       '@noflake/fsd-gen':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../fsd-gen
       facility-core:
         specifier: ^2.2.0
@@ -86,10 +108,10 @@ importers:
         version: 3.11.5
     devDependencies:
       '@noflake/eslint-config':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../eslint-config
       '@noflake/typescript-config':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../typescript-config
       eslint:
         specifier: ^8.57.0
