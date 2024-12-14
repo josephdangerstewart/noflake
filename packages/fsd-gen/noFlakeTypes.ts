@@ -37,6 +37,12 @@ export interface ITestSuiteResult {
 	/** The sha of the git commit for which the test suite was run. */
 	commitSha?: string;
 
+	/** A unique identifier of this test suite since one project may have multiple test suites */
+	suiteId?: string;
+
+	/** When this test suite was run */
+	runDate?: string;
+
 	/** The project this run is associated with */
 	projectId?: string;
 

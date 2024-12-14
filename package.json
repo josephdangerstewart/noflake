@@ -5,7 +5,7 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "codegen": "tsx ./scripts/generateFsd.mts",
+    "codegen": "tsx ./scripts/generateFsd.mts && turbo @noflake/fsd-gen#build",
     "newPackage": "turbo gen basic --args",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },

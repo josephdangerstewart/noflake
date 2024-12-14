@@ -4,6 +4,9 @@
   "exclude": ["node_modules", "dist/**"],
   "compilerOptions": {
     "outDir": "dist",
-    "esModuleInterop": false
+    "esModuleInterop": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": false
   }
 }
