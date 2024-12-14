@@ -1,5 +1,5 @@
 {
-  "extends": "@noflake/typescript-config/base.json",
+  "extends": "@noflake/typescript-config/node.json",
   "include": ["."],
   "exclude": ["node_modules", "dist/**"],
   "compilerOptions": {

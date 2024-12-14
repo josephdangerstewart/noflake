@@ -2,10 +2,10 @@
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"extends": "./base.json",
 	"compilerOptions": {
-		"target": "ESNext",
-		"module": "ESNext",
-		"lib": ["ESNext", "DOM"],
-		"noEmit": true
+		"target": "ES2023",
+		"module": "NodeNext",
+		"moduleResolution": "nodenext",
+		"lib": ["ES2023"]
 	},
 	"exclude": ["node_modules"]
 }

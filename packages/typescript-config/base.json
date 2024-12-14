@@ -1,20 +1,25 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "compilerOptions": {
-    "composite": false,
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "inlineSources": false,
-    "isolatedModules": true,
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "preserveWatchOutput": true,
-    "skipLibCheck": true,
-    "strict": true
-  },
-  "exclude": ["node_modules"]
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"compilerOptions": {
+		"target": "ES2023",
+		"composite": false,
+		"declaration": true,
+		"declarationMap": true,
+		"esModuleInterop": true,
+		"useDefineForClassFields": true,
+		"forceConsistentCasingInFileNames": true,
+		"inlineSources": false,
+		"isolatedModules": true,
+		"module": "ES2022",
+		"moduleResolution": "bundler",
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"preserveWatchOutput": true,
+		"skipLibCheck": true,
+        "resolveJsonModule": true,
+        "sourceMap": true,
+		"strict": true
+	},
+	"exclude": ["node_modules"]
 }
