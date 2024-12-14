@@ -40,6 +40,7 @@ export function createApp(service: INoFlake): express.Application {
 
 	app.post('/createProject', function (req, res, next) {
 		const request: ICreateProjectRequest = {};
+		request.project = req.body.project;
 
 		return service.createProject(request)
 			.then(result => {

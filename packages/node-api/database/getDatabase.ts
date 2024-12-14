@@ -2,9 +2,11 @@ import { DeduplicateJoinsPlugin, Kysely, MysqlDialect } from 'kysely';
 import { NoFlakeDatabase } from './databaseTypes';
 import { PoolOptions, createPool } from 'mysql2';
 
-let database: Kysely<NoFlakeDatabase> | undefined;
+export type Database = Kysely<NoFlakeDatabase>;
 
-export function getDatabase(poolOptions: PoolOptions) {
+let database: Database | undefined;
+
+export function getDatabase(poolOptions: PoolOptions): Database {
 	if (!database) {
 		database = new Kysely<NoFlakeDatabase>({
 			dialect: new MysqlDialect({

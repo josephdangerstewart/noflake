@@ -3,6 +3,7 @@ service NoFlake;
 
 method createProject
 {
+	project: Project;
 }:
 {
 	project: Project;

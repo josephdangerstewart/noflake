@@ -11,6 +11,7 @@ export interface INoFlake {
 
 /** Request for CreateProject. */
 export interface ICreateProjectRequest {
+	project?: IProject;
 }
 
 /** Response for CreateProject. */
@@ -37,7 +38,7 @@ export interface ITestSuiteResult {
 	/** The sha of the git commit for which the test suite was run. */
 	commitSha?: string;
 
-	/** A unique identifier of this test suite since one project may have multiple test suites */
+	/** A unique, client defined, identifier of this test suite since one project may have multiple test suites */
 	suiteId?: string;
 
 	/** When this test suite was run */

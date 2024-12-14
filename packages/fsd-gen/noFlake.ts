@@ -33,6 +33,8 @@ class NoFlakeHttpClient implements INoFlake {
 		const uri = 'createProject';
 		const fetchRequest: IFetchRequest = {
 			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(request)
 		};
 		return fetchResponse(this._fetch, this._baseUri + uri, fetchRequest, context)
 			.then(result => {
