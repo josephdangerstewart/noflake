@@ -15,5 +15,7 @@ module.exports = {
   },
   rules: {
     "@typescript-eslint/no-non-null-assertion": "off",
+    "semi": "error",
+    "@typescript-eslint/no-explicit-any": "off",
   },
 };
