@@ -1,11 +1,30 @@
 import { ScopeKind } from "./Scope";
 
-export type Action = 'read' | 'write';
+const actions = ['read', 'write'] as const;
 
 const entityKinds = {
 	global: ['projects'],
 	project: ['testResults'],
 } as const satisfies Record<ScopeKind, string[]>;
+
+export type Action = (typeof actions)[number];
+
+const implicitActionPermissionMap: Record<Action, Action[]> = {
+	read: [],
+	write: ['read'],
+};
+
+export function isAction(maybeAction: unknown): maybeAction is Action {
+	return typeof maybeAction === 'string' && actions.includes(maybeAction as Action);
+}
+
+/**
+ * @param action The action the user is allowed to take
+ * @returns A list of actions that must also be allowed if `action` is allowed
+ */
+export function getImplicitlyAllowedActions(action: Action): Action[] {
+	return [action, ...implicitActionPermissionMap[action]];
+}
 
 type EntityKindMap = typeof entityKinds;
 export type EntityKind<TScopeKind extends ScopeKind = ScopeKind> = EntityKindMap[TScopeKind][number];
