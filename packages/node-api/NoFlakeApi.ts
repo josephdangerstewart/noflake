@@ -4,7 +4,10 @@ import type {
 	INoFlake,
 	ISubmitTestSuiteResultResponse,
 } from '@noflake/fsd-gen';
-import { validateRequiredProperties } from '@noflake/errors';
+import {
+	validateRequiredProperties,
+	catchFacilityErrors,
+} from '@noflake/errors';
 import { IServiceResult } from 'facility-core';
 import { NoFlakeApiOptions } from './NoFlakeApiOptions';
 import { getDatabase } from './database';
@@ -28,9 +31,10 @@ export class NoFlakeApi implements INoFlake {
 		this.permissionService = permissionService;
 	}
 
-	createProject = async (
+	@catchFacilityErrors
+	async createProject(
 		request: ICreateProjectRequest,
-	): Promise<IServiceResult<ICreateProjectResponse>> => {
+	): Promise<IServiceResult<ICreateProjectResponse>> {
 		validateRequiredProperties(request, 'project');
 		validatePermission(
 			await this.permissionService.getPermissions({ kind: 'global' }),
@@ -44,11 +48,12 @@ export class NoFlakeApi implements INoFlake {
 				project: project,
 			},
 		};
-	};
+	}
 
-	submitTestSuiteResult = async (): Promise<
+	@catchFacilityErrors
+	async submitTestSuiteResult(): Promise<
 		IServiceResult<ISubmitTestSuiteResultResponse>
-	> => {
+	> {
 		throw new Error('Method not implemented.');
-	};
+	}
 }

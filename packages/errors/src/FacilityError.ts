@@ -5,7 +5,7 @@ export class FacilityError extends Error {
 	private code: ErrorCodes;
 
 	constructor(code: ErrorCodes, message?: string) {
-		super(`facility error ${code}: ${message}`);
+		super(`${code}: ${message}`);
 		this.code = code;
 	}
 

@@ -8,3 +8,4 @@ export * from './ObjectNullishError';
 export * from './PermissionError';
 
 export * from './validateRequiredProperties';
+export * from './catchFacilityErrors';
