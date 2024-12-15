@@ -1,35 +1,49 @@
 import { PermissionError } from '@noflake/errors';
-import { getImplicitlyAllowedActions, isAction, NarrowPermissionPolicy, PermissionPolicy } from './PermissionPolicy';
+import {
+	getImplicitlyAllowedActions,
+	NarrowPermissionPolicy,
+	PermissionPolicy,
+} from './PermissionPolicy';
 import { Scope, ScopeKind } from './Scope';
 import { stringifyScope } from './stringifyScope';
 
 export function validatePermission<TScopeKind extends ScopeKind = ScopeKind>(
 	permissions: PermissionPolicy<TScopeKind>[],
 	requiredPolicy: NarrowPermissionPolicy<TScopeKind>,
-	scope?: Scope
+	scope?: Scope,
 ) {
 	if (!permissions.some(matchesRequiredPolicy(requiredPolicy))) {
-		throw new PermissionError(requiredPolicy, scope && stringifyScope(scope));
+		throw new PermissionError(
+			stringifyPolicy(requiredPolicy),
+			scope && stringifyScope(scope),
+		);
 	}
 }
 
-function matchesRequiredPolicy<TScopeKind extends ScopeKind>(requiredPolicy: NarrowPermissionPolicy<TScopeKind>) {
+function matchesRequiredPolicy<TScopeKind extends ScopeKind>(
+	requiredPolicy: NarrowPermissionPolicy<TScopeKind>,
+) {
 	return (policy: PermissionPolicy<TScopeKind>): boolean => {
-		const [requiredAction, requiredEntity = '*'] = requiredPolicy.split('/');
-		const [actionPolicyPart, entityPolicyPart = '*'] = policy.split('/');
+		const [requiredAction, requiredEntity] = requiredPolicy;
+		const [policyAction, policyEntity] = policy;
 
-		if (actionPolicyPart === '*') {
-			return true;
-		}
+		const matchesAction =
+			match(requiredAction, policyAction) ||
+			policyAction === '*' ||
+			getImplicitlyAllowedActions(policyAction).some((implicitAction) =>
+				match(requiredAction, implicitAction),
+			);
 
-		if (!isAction(requiredAction) || !isAction(actionPolicyPart)) {
-			return false;
-		}
+		const matchesEntity = match(requiredEntity, policyEntity);
 
-		if (requiredAction !== actionPolicyPart || !getImplicitlyAllowedActions(actionPolicyPart).includes(requiredAction)) {
-			return false;
-		}
-
-		return entityPolicyPart === '*' || entityPolicyPart === requiredEntity;
+		return matchesAction && matchesEntity;
 	};
+}
+
+function match(required: string, policy: string) {
+	return policy === '*' || required === policy;
+}
+
+function stringifyPolicy([action, entity]: NarrowPermissionPolicy) {
+	return `${action}/${entity}`;
 }

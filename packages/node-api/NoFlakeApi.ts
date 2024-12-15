@@ -34,7 +34,7 @@ export class NoFlakeApi implements INoFlake {
 		validateRequiredProperties(request, 'project');
 		validatePermission(
 			await this.permissionService.getPermissions({ kind: 'global' }),
-			'write/projects',
+			['write', 'projects'],
 		);
 
 		const project = await this.projectService.createProject(request.project);

@@ -14,10 +14,6 @@ const implicitActionPermissionMap: Record<Action, Action[]> = {
 	write: ['read'],
 };
 
-export function isAction(maybeAction: unknown): maybeAction is Action {
-	return typeof maybeAction === 'string' && actions.includes(maybeAction as Action);
-}
-
 /**
  * @param action The action the user is allowed to take
  * @returns A list of actions that must also be allowed if `action` is allowed
@@ -29,9 +25,9 @@ export function getImplicitlyAllowedActions(action: Action): Action[] {
 type EntityKindMap = typeof entityKinds;
 export type EntityKind<TScopeKind extends ScopeKind = ScopeKind> = EntityKindMap[TScopeKind][number];
 
-export type NarrowPermissionPolicy<TScopeKind extends ScopeKind = ScopeKind> = `${Action}/${EntityKind<TScopeKind>}`;
+export type NarrowPermissionPolicy<TScopeKind extends ScopeKind = ScopeKind> = [Action, EntityKind<TScopeKind>];
 
 /**
  * Permission polices are actions that can be taken on a given entity within a given scope
  */
-export type PermissionPolicy<TScopeKind extends ScopeKind = ScopeKind> = '*' | Action | `${Action}/*` | NarrowPermissionPolicy<TScopeKind>;
+export type PermissionPolicy<TScopeKind extends ScopeKind = ScopeKind> = [Action | '*', EntityKind<TScopeKind> | '*'];
