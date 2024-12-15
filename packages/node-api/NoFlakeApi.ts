@@ -8,21 +8,34 @@ import { validateRequiredProperties } from '@noflake/errors';
 import { IServiceResult } from 'facility-core';
 import { NoFlakeApiOptions } from './NoFlakeApiOptions';
 import { getDatabase } from './database';
-import { ProjectService } from './services';
+import {
+	IPermissionService,
+	ProjectService,
+	validatePermission,
+} from './services';
 
 export class NoFlakeApi implements INoFlake {
 	private projectService: ProjectService;
+	private permissionService: IPermissionService;
 
-	constructor(options: NoFlakeApiOptions) {
-		const database = getDatabase(options.database);
+	constructor({
+		database: databaseOptions,
+		permissionService,
+	}: NoFlakeApiOptions) {
+		const database = getDatabase(databaseOptions);
 
 		this.projectService = new ProjectService(database);
+		this.permissionService = permissionService;
 	}
 
 	createProject = async (
 		request: ICreateProjectRequest,
 	): Promise<IServiceResult<ICreateProjectResponse>> => {
 		validateRequiredProperties(request, 'project');
+		validatePermission(
+			await this.permissionService.getPermissions({ kind: 'global' }),
+			'write/projects',
+		);
 
 		const project = await this.projectService.createProject(request.project);
 
