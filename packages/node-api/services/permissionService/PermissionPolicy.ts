@@ -30,4 +30,4 @@ export type NarrowPermissionPolicy<TScopeKind extends ScopeKind = ScopeKind> = [
 /**
  * Permission polices are actions that can be taken on a given entity within a given scope
  */
-export type PermissionPolicy<TScopeKind extends ScopeKind = ScopeKind> = [Action | '*', EntityKind<TScopeKind> | '*'];
+export type PermissionPolicy<TScopeKind extends ScopeKind = ScopeKind> = [Action | '*', EntityKind<TScopeKind> | '*'] | [Action | '*'] | '*' | Action;

@@ -25,7 +25,7 @@ function matchesRequiredPolicy<TScopeKind extends ScopeKind>(
 ) {
 	return (policy: PermissionPolicy<TScopeKind>): boolean => {
 		const [requiredAction, requiredEntity] = requiredPolicy;
-		const [policyAction, policyEntity] = policy;
+		const [policyAction, policyEntity] = Array.isArray(policy) ? policy : [policy];
 
 		const matchesAction =
 			match(requiredAction, policyAction) ||
@@ -34,7 +34,7 @@ function matchesRequiredPolicy<TScopeKind extends ScopeKind>(
 				match(requiredAction, implicitAction),
 			);
 
-		const matchesEntity = match(requiredEntity, policyEntity);
+		const matchesEntity = policyEntity === undefined || match(requiredEntity, policyEntity);
 
 		return matchesAction && matchesEntity;
 	};

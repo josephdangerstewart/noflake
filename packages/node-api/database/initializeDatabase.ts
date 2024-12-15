@@ -1,16 +1,15 @@
 import { FileMigrationProvider, Migrator } from 'kysely';
-import { PoolOptions } from 'mysql2';
 import path from 'path';
 import fs from 'fs/promises';
-import { getDatabase } from './getDatabase';
+import { DatabaseConnectionOptions, getDatabase } from './getDatabase';
 
-export async function runMigration(poolOptions: PoolOptions) {
-	const db = getDatabase(poolOptions);
+export async function initializeDatabase(databaseOptions: DatabaseConnectionOptions) {
+	const database = getDatabase(databaseOptions);
 
 	try {
 		console.log(`looking for migrations in ${path.join(__dirname, 'migrations')}`);
 		const migrator = new Migrator({
-			db,
+			db: database,
 			provider: new FileMigrationProvider({
 				path,
 				fs,
@@ -43,7 +42,5 @@ export async function runMigration(poolOptions: PoolOptions) {
 	} catch (error) {
 		console.error('An unexpected error occurred');
 		console.error(error);
-	} finally {
-		await db.destroy();
 	}
 }

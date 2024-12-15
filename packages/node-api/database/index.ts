@@ -1,3 +1,3 @@
-export { getDatabase } from './getDatabase';
+export { getDatabase, cleanupDatabase } from './getDatabase';
 export type { Database } from './getDatabase';
-export { runMigration } from './runMigration';
+export { initializeDatabase } from './initializeDatabase';
