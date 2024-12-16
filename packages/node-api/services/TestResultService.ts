@@ -23,7 +23,7 @@ export class TestResultService {
 		suite: ITestSuite,
 		results: ITestResult[]
 	): Promise<{ suite: ITestSuite; results: ITestResult[] }> => {
-		validateRequiredProperties(suite, 'projectId', 'suiteId');
+		validateRequiredProperties(suite, 'projectId');
 		const projectId = parseId(suite.projectId);
 
 		await this.database.transaction().execute(async (transaction) => {
@@ -31,7 +31,6 @@ export class TestResultService {
 				.insertInto('testSuiteResults')
 				.values({
 					commitSha: suite.commitSha,
-					externalId: suite.suiteId,
 					projectId,
 					runDate: parseDate(suite.runDate) ?? new Date(),
 				})

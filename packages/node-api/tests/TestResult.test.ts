@@ -18,7 +18,6 @@ describe('TestResult', () => {
 		const result = await api.submitTestSuiteResult({
 			suite: {
 				projectId: mockProject.projectId,
-				suiteId: 'a cool suite',
 				commitSha: '12345',
 				runDate: runDate.toISOString(),
 			},

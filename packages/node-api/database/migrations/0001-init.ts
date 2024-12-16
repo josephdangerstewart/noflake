@@ -17,7 +17,6 @@ export async function up(db: Kysely<any>): Promise<void> {
 		.addColumn('id', 'bigint', (col) => col.primaryKey().autoIncrement())
 		.addColumn('projectId', 'bigint', (col) => col.notNull())
 		.addColumn('commitSha', 'varchar(40)')
-		.addColumn('externalId', 'varchar(500)', (col) => col.notNull())
 		.addColumn('runDate', 'datetime', (col) => col.notNull())
 
 		.addForeignKeyConstraint('projectIdForeign', ['projectId'], 'projects', [

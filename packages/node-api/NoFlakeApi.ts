@@ -61,11 +61,7 @@ export class NoFlakeApi implements INoFlake {
 		request: ISubmitTestSuiteResultRequest,
 	): Promise<IServiceResult<ISubmitTestSuiteResultResponse>> {
 		validateRequiredProperties(request, 'suite', 'results');
-		validateRequiredProperties(
-			request.suite,
-			'projectId',
-			'suiteId',
-		);
+		validateRequiredProperties(request.suite, 'projectId');
 		validateCondition(
 			request.results.length > 0,
 			'suite results must contain tests',
@@ -96,7 +92,10 @@ export class NoFlakeApi implements INoFlake {
 			return notFound();
 		}
 
-		await this.testResultService.submitTestSuiteResult(request.suite, request.results);
+		await this.testResultService.submitTestSuiteResult(
+			request.suite,
+			request.results,
+		);
 
 		return { value: {} };
 	}

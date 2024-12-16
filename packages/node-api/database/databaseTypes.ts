@@ -13,7 +13,6 @@ export interface DbProject {
 
 export interface DbTestSuiteResult {
 	id: Generated<bigint>;
-	externalId: string;
 	runDate: Date;
 	projectId: bigint;
 	commitSha?: string;

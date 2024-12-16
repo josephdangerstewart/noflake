@@ -40,9 +40,6 @@ export interface ITestSuite {
 	/** Required. The sha of the git commit for which the test suite was run. */
 	commitSha?: string;
 
-	/** Required. A unique, client defined, identifier of this test suite since one project may have multiple test suites */
-	suiteId?: string;
-
 	/** When this test suite was run. Defaults to current time. */
 	runDate?: string;
 
