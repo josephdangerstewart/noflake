@@ -31,32 +31,32 @@ export interface ISubmitTestSuiteResultResponse {
 export interface IProject {
 	projectId?: string;
 
-	name: string;
+	name?: string;
 }
 
 export interface ITestSuiteResult {
 	/** Required. The sha of the git commit for which the test suite was run. */
-	commitSha: string;
+	commitSha?: string;
 
 	/** Required. A unique, client defined, identifier of this test suite since one project may have multiple test suites */
-	suiteId: string;
+	suiteId?: string;
 
 	/** When this test suite was run. Defaults to current time. */
 	runDate?: string;
 
 	/** Required. The project this run is associated with */
-	projectId: string;
+	projectId?: string;
 
 	/** Required. Must be non-empty. The results of the tests that were run for this suite. */
-	results: ITestResult[];
+	results?: ITestResult[];
 }
 
 export interface ITestResult {
 	/** Required. An opaque token identifying this test. */
-	testId: string;
+	testId?: string;
 
 	/** Required. The ending result of the test. */
-	status: TestResultStatus;
+	status?: TestResultStatus;
 
 	/** Null if the test passed. Defaults to empty array. */
 	errors?: string[];
