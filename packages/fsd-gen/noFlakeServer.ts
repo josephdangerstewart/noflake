@@ -4,7 +4,7 @@
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import { IServiceResult } from 'facility-core';
-import { INoFlake, ICreateProjectRequest, ICreateProjectResponse, ISubmitTestSuiteResultRequest, ISubmitTestSuiteResultResponse, IProject, ITestSuiteRun, ITestResult, TestResultStatus } from './noFlakeTypes';
+import { INoFlake, ICreateProjectRequest, ICreateProjectResponse, ISubmitTestSuiteResultRequest, ISubmitTestSuiteResultResponse, IGetTestHistoryRequest, IGetTestHistoryResponse, IProject, ITestSuiteRun, ITestResult, IHistoricalTestResult, TestResultStatus } from './noFlakeTypes';
 export * from './noFlakeTypes';
 
 const standardErrorCodes: { [code: string]: number } = {
@@ -38,6 +38,7 @@ export function createApp(service: INoFlake): express.Application {
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({ extended: true }));
 
+	/** Creates a project which is a grouping for test suite runs. */
 	app.post('/createProject', function (req, res, next) {
 		const request: ICreateProjectRequest = {};
 		request.project = req.body.project;
@@ -60,6 +61,7 @@ export function createApp(service: INoFlake): express.Application {
 			.catch(next);
 	});
 
+	/** Submits the results of a test suite after it's been run. */
 	app.post('/submitTestSuiteResult', function (req, res, next) {
 		const request: ISubmitTestSuiteResultRequest = {};
 		request.suite = req.body.suite;
@@ -74,6 +76,30 @@ export function createApp(service: INoFlake): express.Application {
 				}
 				if (result.value) {
 					res.sendStatus(200);
+					return;
+				}
+				throw new Error('Result must have an error or value.');
+			})
+			.catch(next);
+	});
+
+	/** Gets the last 10 runs of this test. */
+	app.post('/getTestHistory', function (req, res, next) {
+		const request: IGetTestHistoryRequest = {};
+		request.testId = req.body.testId;
+		request.projectId = req.body.projectId;
+
+		return service.getTestHistory(request)
+			.then(result => {
+				if (result.error) {
+					const status = result.error.code && standardErrorCodes[result.error.code] || 500;
+					res.status(status).send(result.error);
+					return;
+				}
+				if (result.value) {
+					res.status(200).send({
+						history: result.value.history,
+					});
 					return;
 				}
 				throw new Error('Result must have an error or value.');

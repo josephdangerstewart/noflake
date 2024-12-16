@@ -42,7 +42,20 @@ export async function up(db: Kysely<any>): Promise<void> {
 			'testSuiteResults',
 			['id'],
 		)
+		.addUniqueConstraint('externalIdSuiteResultId', ['externalId', 'suiteResultId'])
 
+		.execute();
+
+	await db.schema
+		.createIndex('testResultsExternalId')
+		.on('testResults')
+		.columns(['externalId'])
+		.execute();
+
+	await db.schema
+		.createIndex('testSuiteResultsRunDate')
+		.on('testSuiteResults')
+		.columns(['runDate'])
 		.execute();
 }
 

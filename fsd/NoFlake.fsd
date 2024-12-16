@@ -1,6 +1,7 @@
 [info(version: 0.1.0)]
 service NoFlake;
 
+/// Creates a project which is a grouping for test suite runs.
 method createProject
 {
 	project: Project;
@@ -9,6 +10,7 @@ method createProject
 	project: Project;
 }
 
+/// Submits the results of a test suite after it's been run.
 method submitTestSuiteResult
 {
 	suite: TestSuiteRun;
@@ -17,12 +19,23 @@ method submitTestSuiteResult
 {
 }
 
+/// Gets the last 10 runs of this test.
+method getTestHistory
+{
+	testId: string;
+	projectId: string;
+}:
+{
+	history: HistoricalTestResult[];
+}
+
 data Project
 {
 	projectId: string;
 	name: string;
 }
 
+/// Represents the run of a full test suite
 data TestSuiteRun
 {
 	/// Required. The sha of the git commit for which the test suite was run.
@@ -35,6 +48,7 @@ data TestSuiteRun
 	projectId: string;
 }
 
+/// The result of a single test
 data TestResult
 {
 	/// Required. An opaque token identifying this test.
@@ -51,6 +65,16 @@ data TestResult
 	/// Values in between indicate the test may have flaked.
 	[validate(value: 0..1)]
 	flakeConfidence: decimal;
+}
+
+/// A test result with historical context
+data HistoricalTestResult
+{
+	/// The result of the test
+	testResult: TestResult;
+
+	/// The run this test result is associated with
+	suiteRun: TestSuiteRun;
 }
 
 enum TestResultStatus

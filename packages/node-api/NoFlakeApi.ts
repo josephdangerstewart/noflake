@@ -1,6 +1,8 @@
 import type {
 	ICreateProjectRequest,
 	ICreateProjectResponse,
+	IGetTestHistoryRequest,
+	IGetTestHistoryResponse,
 	INoFlake,
 	ISubmitTestSuiteResultRequest,
 	ISubmitTestSuiteResultResponse,
@@ -98,6 +100,35 @@ export class NoFlakeApi implements INoFlake {
 		);
 
 		return { value: {} };
+	}
+
+	@catchFacilityErrors
+	async getTestHistory(
+		request: IGetTestHistoryRequest,
+	): Promise<IServiceResult<IGetTestHistoryResponse>> {
+		validateRequiredProperties(request, 'testId', 'projectId');
+
+		validatePermission(
+			await this.permissionService.getPermissions({
+				kind: 'project',
+				projectId: request.projectId,
+			}),
+			['read', 'testResults'],
+		);
+
+		const project = await this.projectService.getProject(request.projectId);
+		if (!project) {
+			return notFound();
+		}
+
+		return {
+			value: {
+				history: await this.testResultService.getTestHistory(
+					request.testId,
+					request.projectId,
+				),
+			},
+		};
 	}
 }
 

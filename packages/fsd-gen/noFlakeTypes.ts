@@ -4,9 +4,14 @@
 import { IServiceResult } from 'facility-core';
 
 export interface INoFlake {
+	/** Creates a project which is a grouping for test suite runs. */
 	createProject(request: ICreateProjectRequest, context?: unknown): Promise<IServiceResult<ICreateProjectResponse>>;
 
+	/** Submits the results of a test suite after it's been run. */
 	submitTestSuiteResult(request: ISubmitTestSuiteResultRequest, context?: unknown): Promise<IServiceResult<ISubmitTestSuiteResultResponse>>;
+
+	/** Gets the last 10 runs of this test. */
+	getTestHistory(request: IGetTestHistoryRequest, context?: unknown): Promise<IServiceResult<IGetTestHistoryResponse>>;
 }
 
 /** Request for CreateProject. */
@@ -30,12 +35,25 @@ export interface ISubmitTestSuiteResultRequest {
 export interface ISubmitTestSuiteResultResponse {
 }
 
+/** Request for GetTestHistory. */
+export interface IGetTestHistoryRequest {
+	testId?: string;
+
+	projectId?: string;
+}
+
+/** Response for GetTestHistory. */
+export interface IGetTestHistoryResponse {
+	history?: IHistoricalTestResult[];
+}
+
 export interface IProject {
 	projectId?: string;
 
 	name?: string;
 }
 
+/** Represents the run of a full test suite */
 export interface ITestSuiteRun {
 	/** Required. The sha of the git commit for which the test suite was run. */
 	commitSha?: string;
@@ -47,6 +65,7 @@ export interface ITestSuiteRun {
 	projectId?: string;
 }
 
+/** The result of a single test */
 export interface ITestResult {
 	/** Required. An opaque token identifying this test. */
 	testId?: string;
@@ -59,6 +78,15 @@ export interface ITestResult {
 
 	/** A value of 1 indicates certainty that this test flaked (e.g. the test failed, was retried, and passed). A value of 0 indicates either the test did not flake (e.g. the test passed on the first try) or it is unknown if the test flaked or not. Values in between indicate the test may have flaked. */
 	flakeConfidence?: number;
+}
+
+/** A test result with historical context */
+export interface IHistoricalTestResult {
+	/** The result of the test */
+	testResult?: ITestResult;
+
+	/** The run this test result is associated with */
+	suiteRun?: ITestSuiteRun;
 }
 
 export enum TestResultStatus {

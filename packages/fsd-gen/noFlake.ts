@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import { HttpClientUtility, IServiceResult, IHttpClientOptions } from 'facility-core';
-import { INoFlake, ICreateProjectRequest, ICreateProjectResponse, ISubmitTestSuiteResultRequest, ISubmitTestSuiteResultResponse, IProject, ITestSuiteRun, ITestResult, TestResultStatus } from './noFlakeTypes';
+import { INoFlake, ICreateProjectRequest, ICreateProjectResponse, ISubmitTestSuiteResultRequest, ISubmitTestSuiteResultResponse, IGetTestHistoryRequest, IGetTestHistoryResponse, IProject, ITestSuiteRun, ITestResult, IHistoricalTestResult, TestResultStatus } from './noFlakeTypes';
 export * from './noFlakeTypes';
 
 /** Provides access to NoFlake over HTTP via fetch. */
@@ -29,6 +29,7 @@ class NoFlakeHttpClient implements INoFlake {
 		this._baseUri = baseUri;
 	}
 
+	/** Creates a project which is a grouping for test suite runs. */
 	public createProject(request: ICreateProjectRequest, context?: unknown): Promise<IServiceResult<ICreateProjectResponse>> {
 		const uri = 'createProject';
 		const fetchRequest: IFetchRequest = {
@@ -52,6 +53,7 @@ class NoFlakeHttpClient implements INoFlake {
 			});
 	}
 
+	/** Submits the results of a test suite after it's been run. */
 	public submitTestSuiteResult(request: ISubmitTestSuiteResultRequest, context?: unknown): Promise<IServiceResult<ISubmitTestSuiteResultResponse>> {
 		const uri = 'submitTestSuiteResult';
 		const fetchRequest: IFetchRequest = {
@@ -68,6 +70,30 @@ class NoFlakeHttpClient implements INoFlake {
 				}
 				if (!value) {
 					return createResponseError(status, result.json) as IServiceResult<ISubmitTestSuiteResultResponse>;
+				}
+				return { value: value };
+			});
+	}
+
+	/** Gets the last 10 runs of this test. */
+	public getTestHistory(request: IGetTestHistoryRequest, context?: unknown): Promise<IServiceResult<IGetTestHistoryResponse>> {
+		const uri = 'getTestHistory';
+		const fetchRequest: IFetchRequest = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(request)
+		};
+		return fetchResponse(this._fetch, this._baseUri + uri, fetchRequest, context)
+			.then(result => {
+				const status = result.response.status;
+				let value: IGetTestHistoryResponse | null = null;
+				if (status === 200) {
+					if (result.json) {
+						value = result.json as IGetTestHistoryResponse | null;
+					}
+				}
+				if (!value) {
+					return createResponseError(status, result.json) as IServiceResult<IGetTestHistoryResponse>;
 				}
 				return { value: value };
 			});
