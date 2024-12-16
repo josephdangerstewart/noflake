@@ -61,19 +61,37 @@ export class NoFlakeApi implements INoFlake {
 		request: ISubmitTestSuiteResultRequest,
 	): Promise<IServiceResult<ISubmitTestSuiteResultResponse>> {
 		validateRequiredProperties(request, 'result');
-		validateRequiredProperties(request.result, 'projectId', 'results', 'suiteId');
-		validateCondition(request.result.results.length > 0, 'suite results must contain tests');
+		validateRequiredProperties(
+			request.result,
+			'projectId',
+			'results',
+			'suiteId',
+		);
+		validateCondition(
+			request.result.results.length > 0,
+			'suite results must contain tests',
+		);
 
 		for (const testResult of request.result.results) {
 			validateRequiredProperties(testResult, 'status', 'testId');
+			validateCondition(
+				!testResult.flakeConfidence ||
+					(testResult.flakeConfidence >= 0 && testResult.flakeConfidence <= 1),
+				'flakeConfidence must be between 0 and 1',
+			);
 		}
 
 		validatePermission(
-			await this.permissionService.getPermissions({ kind: 'project', projectId: request.result.projectId }),
-			['write', 'testResults']
+			await this.permissionService.getPermissions({
+				kind: 'project',
+				projectId: request.result.projectId,
+			}),
+			['write', 'testResults'],
 		);
 
-		const project = await this.projectService.getProject(request.result.projectId);
+		const project = await this.projectService.getProject(
+			request.result.projectId,
+		);
 
 		if (!project) {
 			return notFound();
@@ -89,6 +107,6 @@ function notFound(): IServiceResult<any> {
 	return {
 		error: {
 			code: ErrorCodes.NotFound,
-		}
+		},
 	};
 }
