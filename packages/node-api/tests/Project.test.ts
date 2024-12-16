@@ -9,7 +9,7 @@ describe('Projects', () => {
 	it('can create a project with write permissions', async () => {
 		const api = new NoFlakeApi({
 			database: getDatabaseOptions(),
-			permissionService: new MockPermissionService('*'),
+			permissionService: new MockPermissionService(['write', 'projects']),
 		});
 
 		const result = await api.createProject({

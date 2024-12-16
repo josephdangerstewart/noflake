@@ -1,28 +1,28 @@
 import { Generated, JSONColumnType } from 'kysely';
 
 export interface NoFlakeDatabase {
-	projects: Project;
-	testSuiteResults: TestSuiteResult;
-	testResults: TestResult;
+	projects: DbProject;
+	testSuiteResults: DbTestSuiteResult;
+	testResults: DbTestResult;
 }
 
-export interface Project {
-	id: Generated<number>;
+export interface DbProject {
+	id: Generated<bigint>;
 	name: string;
 }
 
-export interface TestSuiteResult {
-	id: Generated<number>;
+export interface DbTestSuiteResult {
+	id: Generated<bigint>;
 	externalId: string;
-	runDate: string;
-	projectId: number;
-	commitSha: string;
+	runDate: Date;
+	projectId: bigint;
+	commitSha?: string;
 }
 
-export interface TestResult {
-	id: Generated<number>;
+export interface DbTestResult {
+	id: Generated<bigint>;
 	externalId: string;
-	suiteResultId: number;
+	suiteResultId: bigint;
 	status: number;
 	errors: JSONColumnType<string[]>;
 	flakeConfidence: number;

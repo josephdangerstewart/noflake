@@ -7,5 +7,9 @@ export * from './ObjectNullishError';
 
 export * from './PermissionError';
 
+export * from './DatabaseError';
+export * from './DatabaseInsertError';
+
 export * from './validateRequiredProperties';
+export * from './validateCondition';
 export * from './catchFacilityErrors';
