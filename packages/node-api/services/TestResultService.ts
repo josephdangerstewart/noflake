@@ -1,6 +1,6 @@
 import {
 	ITestResult,
-	ITestSuite,
+	ITestSuiteRun,
 	TestResultStatus,
 } from '@noflake/fsd-gen';
 import {
@@ -20,9 +20,9 @@ export class TestResultService {
 	}
 
 	public submitTestSuiteResult = async (
-		suite: ITestSuite,
+		suite: ITestSuiteRun,
 		results: ITestResult[]
-	): Promise<{ suite: ITestSuite; results: ITestResult[] }> => {
+	): Promise<{ suite: ITestSuiteRun; results: ITestResult[] }> => {
 		validateRequiredProperties(suite, 'projectId');
 		const projectId = parseId(suite.projectId);
 

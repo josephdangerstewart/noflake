@@ -21,7 +21,7 @@ export interface ICreateProjectResponse {
 
 /** Request for SubmitTestSuiteResult. */
 export interface ISubmitTestSuiteResultRequest {
-	suite?: ITestSuite;
+	suite?: ITestSuiteRun;
 
 	results?: ITestResult[];
 }
@@ -36,7 +36,7 @@ export interface IProject {
 	name?: string;
 }
 
-export interface ITestSuite {
+export interface ITestSuiteRun {
 	/** Required. The sha of the git commit for which the test suite was run. */
 	commitSha?: string;
 

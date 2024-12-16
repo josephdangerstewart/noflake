@@ -11,7 +11,7 @@ method createProject
 
 method submitTestSuiteResult
 {
-	suite: TestSuite;
+	suite: TestSuiteRun;
 	results: TestResult[];
 }:
 {
@@ -23,7 +23,7 @@ data Project
 	name: string;
 }
 
-data TestSuite
+data TestSuiteRun
 {
 	/// Required. The sha of the git commit for which the test suite was run.
 	commitSha: string;
