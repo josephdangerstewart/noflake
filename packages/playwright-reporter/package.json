@@ -1,0 +1,23 @@
+{
+  "name": "@noflake/playwright-reporter",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint \"**/*.ts\"",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@noflake/eslint-config": "workspace:^",
+    "@noflake/typescript-config": "workspace:^",
+    "@playwright/test": "^1.49.1",
+    "eslint": "^8.57.0",
+    "typescript": "5.5.4"
+  },
+  "dependencies": {
+    "@noflake/errors": "workspace:^",
+    "@noflake/fsd-gen": "workspace:^"
+  }
+}
