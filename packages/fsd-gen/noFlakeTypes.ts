@@ -21,7 +21,9 @@ export interface ICreateProjectResponse {
 
 /** Request for SubmitTestSuiteResult. */
 export interface ISubmitTestSuiteResultRequest {
-	result?: ITestSuiteResult;
+	suite?: ITestSuite;
+
+	results?: ITestResult[];
 }
 
 /** Response for SubmitTestSuiteResult. */
@@ -34,7 +36,7 @@ export interface IProject {
 	name?: string;
 }
 
-export interface ITestSuiteResult {
+export interface ITestSuite {
 	/** Required. The sha of the git commit for which the test suite was run. */
 	commitSha?: string;
 
@@ -46,9 +48,6 @@ export interface ITestSuiteResult {
 
 	/** Required. The project this run is associated with */
 	projectId?: string;
-
-	/** Required. Must be non-empty. The results of the tests that were run for this suite. */
-	results?: ITestResult[];
 }
 
 export interface ITestResult {
@@ -63,12 +62,6 @@ export interface ITestResult {
 
 	/** A value of 1 indicates certainty that this test flaked (e.g. the test failed, was retried, and passed). A value of 0 indicates either the test did not flake (e.g. the test passed on the first try) or it is unknown if the test flaked or not. Values in between indicate the test may have flaked. */
 	flakeConfidence?: number;
-}
-
-export interface ITestId {
-	testId?: string;
-
-	version?: string;
 }
 
 export enum TestResultStatus {

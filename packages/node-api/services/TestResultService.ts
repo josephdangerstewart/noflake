@@ -1,5 +1,6 @@
 import {
-	ITestSuiteResult,
+	ITestResult,
+	ITestSuite,
 	TestResultStatus,
 } from '@noflake/fsd-gen';
 import {
@@ -19,19 +20,20 @@ export class TestResultService {
 	}
 
 	public submitTestSuiteResult = async (
-		result: ITestSuiteResult,
-	): Promise<ITestSuiteResult> => {
-		validateRequiredProperties(result, 'projectId', 'suiteId', 'results');
-		const projectId = parseId(result.projectId);
+		suite: ITestSuite,
+		results: ITestResult[]
+	): Promise<{ suite: ITestSuite; results: ITestResult[] }> => {
+		validateRequiredProperties(suite, 'projectId', 'suiteId');
+		const projectId = parseId(suite.projectId);
 
 		await this.database.transaction().execute(async (transaction) => {
 			const suiteResultInsert = await transaction
 				.insertInto('testSuiteResults')
 				.values({
-					commitSha: result.commitSha,
-					externalId: result.suiteId,
+					commitSha: suite.commitSha,
+					externalId: suite.suiteId,
 					projectId,
-					runDate: parseDate(result.runDate) ?? new Date(),
+					runDate: parseDate(suite.runDate) ?? new Date(),
 				})
 				.executeTakeFirst();
 
@@ -45,7 +47,7 @@ export class TestResultService {
 			const testResultsInsert = await transaction
 				.insertInto('testResults')
 				.values(
-					result.results.map<Insertable<DbTestResult>>((result) => {
+					results.map<Insertable<DbTestResult>>((result) => {
 						validateRequiredProperties(result, 'status', 'testId');
 						return {
 							errors: JSON.stringify(result.errors ?? []),
@@ -60,13 +62,13 @@ export class TestResultService {
 
 			if (
 				testResultsInsert.numInsertedOrUpdatedRows !==
-				BigInt(result.results.length)
+				BigInt(results.length)
 			) {
 				throw new DatabaseInsertError('testResults');
 			}
 		});
 
-		return result;
+		return { suite, results };
 	};
 }
 

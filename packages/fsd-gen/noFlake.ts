@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import { HttpClientUtility, IServiceResult, IHttpClientOptions } from 'facility-core';
-import { INoFlake, ICreateProjectRequest, ICreateProjectResponse, ISubmitTestSuiteResultRequest, ISubmitTestSuiteResultResponse, IProject, ITestSuiteResult, ITestResult, ITestId, TestResultStatus } from './noFlakeTypes';
+import { INoFlake, ICreateProjectRequest, ICreateProjectResponse, ISubmitTestSuiteResultRequest, ISubmitTestSuiteResultResponse, IProject, ITestSuite, ITestResult, TestResultStatus } from './noFlakeTypes';
 export * from './noFlakeTypes';
 
 /** Provides access to NoFlake over HTTP via fetch. */

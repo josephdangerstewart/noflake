@@ -60,19 +60,18 @@ export class NoFlakeApi implements INoFlake {
 	async submitTestSuiteResult(
 		request: ISubmitTestSuiteResultRequest,
 	): Promise<IServiceResult<ISubmitTestSuiteResultResponse>> {
-		validateRequiredProperties(request, 'result');
+		validateRequiredProperties(request, 'suite', 'results');
 		validateRequiredProperties(
-			request.result,
+			request.suite,
 			'projectId',
-			'results',
 			'suiteId',
 		);
 		validateCondition(
-			request.result.results.length > 0,
+			request.results.length > 0,
 			'suite results must contain tests',
 		);
 
-		for (const testResult of request.result.results) {
+		for (const testResult of request.results) {
 			validateRequiredProperties(testResult, 'status', 'testId');
 			validateCondition(
 				!testResult.flakeConfidence ||
@@ -84,20 +83,20 @@ export class NoFlakeApi implements INoFlake {
 		validatePermission(
 			await this.permissionService.getPermissions({
 				kind: 'project',
-				projectId: request.result.projectId,
+				projectId: request.suite.projectId,
 			}),
 			['write', 'testResults'],
 		);
 
 		const project = await this.projectService.getProject(
-			request.result.projectId,
+			request.suite.projectId,
 		);
 
 		if (!project) {
 			return notFound();
 		}
 
-		await this.testResultService.submitTestSuiteResult(request.result);
+		await this.testResultService.submitTestSuiteResult(request.suite, request.results);
 
 		return { value: {} };
 	}

@@ -16,18 +16,18 @@ describe('TestResult', () => {
 
 		const runDate = new Date();
 		const result = await api.submitTestSuiteResult({
-			result: {
+			suite: {
 				projectId: mockProject.projectId,
 				suiteId: 'a cool suite',
 				commitSha: '12345',
-				results: [
-					{
-						status: TestResultStatus.pass,
-						testId: 'sample test',
-					}
-				],
 				runDate: runDate.toISOString(),
 			},
+			results: [
+				{
+					status: TestResultStatus.pass,
+					testId: 'sample test',
+				}
+			],
 		});
 
 		expect(result).toEqual<IServiceResult<ISubmitTestSuiteResultResponse>>({

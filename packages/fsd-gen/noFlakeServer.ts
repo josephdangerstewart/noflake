@@ -4,7 +4,7 @@
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import { IServiceResult } from 'facility-core';
-import { INoFlake, ICreateProjectRequest, ICreateProjectResponse, ISubmitTestSuiteResultRequest, ISubmitTestSuiteResultResponse, IProject, ITestSuiteResult, ITestResult, ITestId, TestResultStatus } from './noFlakeTypes';
+import { INoFlake, ICreateProjectRequest, ICreateProjectResponse, ISubmitTestSuiteResultRequest, ISubmitTestSuiteResultResponse, IProject, ITestSuite, ITestResult, TestResultStatus } from './noFlakeTypes';
 export * from './noFlakeTypes';
 
 const standardErrorCodes: { [code: string]: number } = {
@@ -62,7 +62,8 @@ export function createApp(service: INoFlake): express.Application {
 
 	app.post('/submitTestSuiteResult', function (req, res, next) {
 		const request: ISubmitTestSuiteResultRequest = {};
-		request.result = req.body.result;
+		request.suite = req.body.suite;
+		request.results = req.body.results;
 
 		return service.submitTestSuiteResult(request)
 			.then(result => {
