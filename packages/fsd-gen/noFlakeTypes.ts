@@ -31,34 +31,34 @@ export interface ISubmitTestSuiteResultResponse {
 export interface IProject {
 	projectId?: string;
 
-	name?: string;
+	name: string;
 }
 
 export interface ITestSuiteResult {
-	/** The sha of the git commit for which the test suite was run. */
-	commitSha?: string;
+	/** Required. The sha of the git commit for which the test suite was run. */
+	commitSha: string;
 
-	/** A unique, client defined, identifier of this test suite since one project may have multiple test suites */
-	suiteId?: string;
+	/** Required. A unique, client defined, identifier of this test suite since one project may have multiple test suites */
+	suiteId: string;
 
-	/** When this test suite was run */
+	/** When this test suite was run. Defaults to current time. */
 	runDate?: string;
 
-	/** The project this run is associated with */
-	projectId?: string;
+	/** Required. The project this run is associated with */
+	projectId: string;
 
-	/** The results of the tests that were run for this suite. */
-	results?: ITestResult[];
+	/** Required. Must be non-empty. The results of the tests that were run for this suite. */
+	results: ITestResult[];
 }
 
 export interface ITestResult {
-	/** An opaque token identifying this test. */
-	testId?: string;
+	/** Required. An opaque token identifying this test. */
+	testId: string;
 
-	/** The ending result of the test. */
-	status?: TestResultStatus;
+	/** Required. The ending result of the test. */
+	status: TestResultStatus;
 
-	/** Null if the test passed. */
+	/** Null if the test passed. Defaults to empty array. */
 	errors?: string[];
 
 	/** A value of 1 indicates certainty that this test flaked (e.g. the test failed, was retried, and passed). A value of 0 indicates either the test did not flake (e.g. the test passed on the first try) or it is unknown if the test flaked or not. Values in between indicate the test may have flaked. */

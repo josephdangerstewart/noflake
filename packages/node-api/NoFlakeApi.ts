@@ -64,6 +64,10 @@ export class NoFlakeApi implements INoFlake {
 		validateRequiredProperties(request.result, 'projectId', 'results', 'suiteId');
 		validateCondition(request.result.results.length > 0, 'suite results must contain tests');
 
+		for (const testResult of request.result.results) {
+			validateRequiredProperties(testResult, 'status', 'testId');
+		}
+
 		validatePermission(
 			await this.permissionService.getPermissions({ kind: 'project', projectId: request.result.projectId }),
 			['write', 'testResults']
