@@ -12,14 +12,12 @@ import {
 export interface NoFlakeReporterOptions {
 	api?: INoFlake;
 	projectId?: string;
-	suiteId?: string;
 	commitSha?: string;
 }
 
 export class NoFlakeReporter implements Reporter {
 	private api: INoFlake;
 	private projectId: string;
-	private suiteId: string;
 	private commitSha?: string;
 	private results: ITestResult[];
 
@@ -28,7 +26,6 @@ export class NoFlakeReporter implements Reporter {
 
 		this.api = options.api;
 		this.projectId = options.projectId;
-		this.suiteId = options.suiteId ?? 'playwright test suite';
 		this.commitSha = options.commitSha;
 		this.results = [];
 	}
@@ -51,13 +48,12 @@ export class NoFlakeReporter implements Reporter {
 	): Promise<{ status: FullResult['status'] }> => {
 		if (this.results.length) {
 			const result = await this.api.submitTestSuiteResult({
-				result: {
+				suite: {
 					projectId: this.projectId,
-					suiteId: this.suiteId,
 					commitSha: this.commitSha,
 					runDate: new Date().toISOString(),
-					results: this.results,
 				},
+				results: this.results,
 			});
 
 			if (result.error) {
