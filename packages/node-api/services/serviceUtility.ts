@@ -1,4 +1,4 @@
-import { ParsingError } from "../../errors/src/ParsingError";
+import { ParsingError } from '@noflake/errors';
 
 export function stringifyId(id: bigint): string {
 	return id.toString();
@@ -16,7 +16,7 @@ export function parseDate(dateString: string): Date;
 export function parseDate(dateString: string | undefined): Date | undefined;
 export function parseDate(dateString?: string): Date | undefined {
 	if (!dateString) {
-		return  undefined;
+		return undefined;
 	}
 
 	const date = new Date(dateString);

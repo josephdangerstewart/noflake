@@ -42,5 +42,6 @@ export async function initializeDatabase(databaseOptions: DatabaseConnectionOpti
 	} catch (error) {
 		console.error('An unexpected error occurred');
 		console.error(error);
+		throw error;
 	}
 }
