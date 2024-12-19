@@ -1,0 +1,24 @@
+{
+  "name": "@noflake/express-app",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint \"**/*.ts\"",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@noflake/eslint-config": "workspace:^",
+    "@noflake/node-api": "workspace:^",
+    "@noflake/typescript-config": "workspace:^",
+    "@types/express": "^5.0.0",
+    "eslint": "^8.57.0",
+    "typescript": "5.5.4"
+  },
+  "dependencies": {
+    "@noflake/fsd-gen": "workspace:^",
+    "express": "^4.21.2"
+  }
+}
