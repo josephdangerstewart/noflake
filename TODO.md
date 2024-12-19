@@ -5,7 +5,6 @@ Things to do:
   - [ ] Test history page (most important)
   - [ ] How to allow custom auth strategies in UI?
 - [ ] Add project metadata (e.g. github repo)
-- [ ] Add suite context (e.g. PR build, master build, local, unknown)
 - [ ] Figure out how to test playwright reporter
   - [ ] Maybe add playwright tests for UI and use no flake reporter?
 - [ ] Add flake detection
