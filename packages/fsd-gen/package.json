@@ -6,6 +6,7 @@
     "./client": "./dist/noFlake.js",
     "./server": "./dist/noFlakeServer.js"
   },
+  "files": ["dist"],
   "license": "MIT",
   "scripts": {
     "lint": "eslint \"**/*.ts\"",

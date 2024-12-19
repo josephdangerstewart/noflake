@@ -5,6 +5,7 @@
     ".": "./dist/index.js"
   },
   "license": "MIT",
+  "files": ["dist"],
   "scripts": {
     "lint": "eslint \"**/*.ts\"",
     "build": "tsc",
