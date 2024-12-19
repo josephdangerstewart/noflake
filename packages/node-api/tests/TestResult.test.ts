@@ -7,6 +7,7 @@ import {
 	IGetTestHistoryResponse,
 	ISubmitTestSuiteResultResponse,
 	TestResultStatus,
+	TestRunBuildContext,
 } from '@noflake/fsd-gen';
 import { verifyResponse } from './testUtility';
 import { getMockSuiteRun } from './mocks/getMockSuiteRun';
@@ -38,6 +39,30 @@ describe('TestResult', () => {
 		expect(result).toEqual<IServiceResult<ISubmitTestSuiteResultResponse>>({
 			value: {},
 		});
+	});
+
+	it('defaults buildContext to unknown', async () => {
+		const project = await createMockProject();
+		const api = new NoFlakeApi({
+			database: getDatabaseOptions(),
+			permissionService: new MockPermissionService('*'),
+		});
+
+		verifyResponse(
+			await api.submitTestSuiteResult({
+				suite: {
+					projectId: project.projectId,
+				},
+				results: getMockTestResults(1, 'test'),
+			}),
+		);
+
+		const historyResult = await api.getTestHistory({
+			testId: 'test 0',
+			projectId: project.projectId,
+		});
+
+		expect(historyResult.value?.history?.[0]?.suiteRun?.context).toEqual(TestRunBuildContext.unknown);
 	});
 
 	it('can get test history', async () => {

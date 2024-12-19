@@ -63,6 +63,9 @@ export interface ITestSuiteRun {
 
 	/** Required. The project this run is associated with */
 	projectId?: string;
+
+	/** The context in which the build was run. Defaults to unknown. */
+	context?: TestRunBuildContext;
 }
 
 /** The result of a single test */
@@ -93,5 +96,17 @@ export enum TestResultStatus {
 	pass = 'pass',
 
 	fail = 'fail',
+}
+
+export enum TestRunBuildContext {
+	pr = 'pr',
+
+	main = 'main',
+
+	local = 'local',
+
+	background = 'background',
+
+	unknown = 'unknown',
 }
 

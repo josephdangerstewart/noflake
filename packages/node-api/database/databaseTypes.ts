@@ -16,6 +16,7 @@ export interface DbTestSuiteResult {
 	runDate: Date;
 	projectId: bigint;
 	commitSha?: string;
+	context: number;
 }
 
 export interface DbTestResult {

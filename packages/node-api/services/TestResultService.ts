@@ -3,6 +3,7 @@ import {
 	ITestResult,
 	ITestSuiteRun,
 	TestResultStatus,
+	TestRunBuildContext,
 } from '@noflake/fsd-gen';
 import {
 	DatabaseError,
@@ -38,6 +39,7 @@ export class TestResultService {
 				's.id as suiteResultId',
 				's.commitSha',
 				's.runDate',
+				's.context',
 			])
 			.where('t.externalId', '=', testId)
 			.where('s.projectId', '=', parseId(projectId))
@@ -56,6 +58,7 @@ export class TestResultService {
 				commitSha: result.commitSha,
 				projectId,
 				runDate: result.runDate.toISOString(),
+				context: mapToApiContext(result.context),
 			},
 		}));
 	};
@@ -74,6 +77,7 @@ export class TestResultService {
 					commitSha: suite.commitSha,
 					projectId,
 					runDate: parseDate(suite.runDate) ?? new Date(),
+					context: mapToDbContext(suite.context ?? TestRunBuildContext.unknown),
 				})
 				.executeTakeFirst();
 
@@ -112,9 +116,33 @@ export class TestResultService {
 }
 
 const testResultStatusMap: Record<TestResultStatus, number> = {
-	[TestResultStatus.pass]: 1,
-	[TestResultStatus.fail]: 2,
+	[TestResultStatus.pass]: 0,
+	[TestResultStatus.fail]: 1,
 };
+
+const buildContextMap: Record<TestRunBuildContext, number> = {
+	[TestRunBuildContext.unknown]: 0,
+	[TestRunBuildContext.main]: 1,
+	[TestRunBuildContext.pr]: 2,
+	[TestRunBuildContext.background]: 3,
+	[TestRunBuildContext.local]: 4,
+};
+
+function mapToDbContext(context: TestRunBuildContext) {
+	return buildContextMap[context];
+}
+
+function mapToApiContext(context: number): TestRunBuildContext {
+	const result = Object.entries(buildContextMap).find(
+		([, dbContext]) => dbContext === context,
+	)?.[0];
+
+	if (!result) {
+		throw new DatabaseError('could not map db status to api status');
+	}
+
+	return result as TestRunBuildContext;
+}
 
 function mapToDbStatus(status: TestResultStatus) {
 	return testResultStatusMap[status];

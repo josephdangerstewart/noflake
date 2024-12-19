@@ -1,4 +1,4 @@
-import { ITestSuiteRun } from '@noflake/fsd-gen';
+import { ITestSuiteRun, TestRunBuildContext } from '@noflake/fsd-gen';
 
 export function getMockSuiteRun(projectId?: string, commitSha: string = '1234'): ITestSuiteRun {
 	const date = new Date();
@@ -7,5 +7,6 @@ export function getMockSuiteRun(projectId?: string, commitSha: string = '1234'):
 		commitSha,
 		projectId,
 		runDate: date.toISOString(),
+		context: TestRunBuildContext.unknown,
 	};
 }

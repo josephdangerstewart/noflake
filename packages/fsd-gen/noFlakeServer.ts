@@ -4,7 +4,7 @@
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import { IServiceResult } from 'facility-core';
-import { INoFlake, ICreateProjectRequest, ICreateProjectResponse, ISubmitTestSuiteResultRequest, ISubmitTestSuiteResultResponse, IGetTestHistoryRequest, IGetTestHistoryResponse, IProject, ITestSuiteRun, ITestResult, IHistoricalTestResult, TestResultStatus } from './noFlakeTypes';
+import { INoFlake, ICreateProjectRequest, ICreateProjectResponse, ISubmitTestSuiteResultRequest, ISubmitTestSuiteResultResponse, IGetTestHistoryRequest, IGetTestHistoryResponse, IProject, ITestSuiteRun, ITestResult, IHistoricalTestResult, TestResultStatus, TestRunBuildContext } from './noFlakeTypes';
 export * from './noFlakeTypes';
 
 const standardErrorCodes: { [code: string]: number } = {

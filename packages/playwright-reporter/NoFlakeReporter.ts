@@ -1,5 +1,5 @@
 import { FacilityError, validateRequiredProperties } from '@noflake/errors';
-import { INoFlake, ITestResult, TestResultStatus } from '@noflake/fsd-gen';
+import { INoFlake, ITestResult, TestResultStatus, TestRunBuildContext } from '@noflake/fsd-gen';
 import {
 	FullResult,
 	Reporter,
@@ -13,12 +13,14 @@ export interface NoFlakeReporterOptions {
 	api?: INoFlake;
 	projectId?: string;
 	commitSha?: string;
+	buildContext?: TestRunBuildContext;
 }
 
 export class NoFlakeReporter implements Reporter {
 	private api: INoFlake;
 	private projectId: string;
 	private commitSha?: string;
+	private buildContext?: TestRunBuildContext;
 	private results: ITestResult[];
 
 	constructor(options: NoFlakeReporterOptions = {}) {
@@ -27,6 +29,7 @@ export class NoFlakeReporter implements Reporter {
 		this.api = options.api;
 		this.projectId = options.projectId;
 		this.commitSha = options.commitSha;
+		this.buildContext = options.buildContext;
 		this.results = [];
 	}
 
@@ -52,6 +55,7 @@ export class NoFlakeReporter implements Reporter {
 					projectId: this.projectId,
 					commitSha: this.commitSha,
 					runDate: new Date().toISOString(),
+					context: this.buildContext,
 				},
 				results: this.results,
 			});

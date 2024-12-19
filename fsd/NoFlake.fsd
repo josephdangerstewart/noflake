@@ -46,6 +46,9 @@ data TestSuiteRun
 
 	/// Required. The project this run is associated with
 	projectId: string;
+
+	/// The context in which the build was run. Defaults to unknown.
+	context: TestRunBuildContext;
 }
 
 /// The result of a single test
@@ -81,4 +84,13 @@ enum TestResultStatus
 {
 	pass,
 	fail
+}
+
+enum TestRunBuildContext
+{
+	pr,
+	main,
+	local,
+	background,
+	unknown,
 }

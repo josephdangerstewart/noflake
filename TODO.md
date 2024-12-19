@@ -9,3 +9,4 @@ Things to do:
 - [ ] Figure out how to test playwright reporter
   - [ ] Maybe add playwright tests for UI and use no flake reporter?
 - [ ] Add flake detection
+- [ ] Add unit tests for permission utilities in node api
