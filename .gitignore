@@ -236,4 +236,6 @@ dist-ssr
 server/dist
 public/dist
 fsd-temp/
-
+.react-router/
+build/
+!build/server/index.d.ts

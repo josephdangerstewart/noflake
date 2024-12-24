@@ -3,8 +3,10 @@
 	"extends": "./base.json",
 	"compilerOptions": {
 		"target": "ES2023",
-		"module": "ESNext",
-		"lib": ["ES2023", "DOM"],
+		"module": "ES2022",
+		"moduleResolution": "bundler",
+		"lib": ["DOM", "DOM.Iterable", "ES2023"],
+		"types": ["node", "vite/client"],
 		"noEmit": true
 	},
 	"exclude": ["node_modules"]

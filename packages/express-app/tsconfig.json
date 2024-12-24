@@ -1,8 +1,18 @@
 {
-  "extends": "@noflake/typescript-config/node.json",
-  "include": ["."],
-  "exclude": ["node_modules", "dist/**", "./devServer.ts"],
-  "compilerOptions": {
-    "outDir": "dist",
-  }
+	"extends": "@noflake/typescript-config/vite.json",
+	"include": [
+		"**/*",
+		"**/.server/**/*",
+		"**/.client/**/*",
+		".react-router/types/**/*"
+	],
+	"exclude": ["node_modules", "dist/**", "./devServer.ts"],
+	"compilerOptions": {
+		"outDir": "dist",
+		"jsx": "react-jsx",
+		"rootDirs": [".", "./.react-router/types"],
+		"paths": {
+			"~/*": ["./frontend/app/*"]
+		}
+	}
 }

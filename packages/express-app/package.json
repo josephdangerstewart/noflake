@@ -1,27 +1,48 @@
 {
   "name": "@noflake/express-app",
   "version": "0.1.0",
+  "type": "module",
   "exports": {
     ".": "./dist/index.js"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "license": "MIT",
   "scripts": {
     "lint": "eslint \"**/*.ts\"",
-    "build": "tsc",
-    "dev": "tsx ./devServer.ts"
+    "build": "pnpm build:compile && pnpm build:frontend",
+    "dev": "tsx ./devServer.ts",
+    "build:frontend": "cross-env NODE_ENV=production react-router build",
+    "build:compile": "react-router typegen && tsc"
   },
   "devDependencies": {
     "@noflake/eslint-config": "workspace:^",
     "@noflake/node-api": "workspace:^",
     "@noflake/typescript-config": "workspace:^",
+    "@react-router/dev": "^7.1.1",
     "@types/express": "^5.0.0",
+    "@types/node": "^20",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.1",
+    "autoprefixer": "^10.4.20",
+    "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
+    "postcss": "^8.4.49",
     "tsx": "^4.19.2",
-    "typescript": "5.5.4"
+    "typescript": "5.5.4",
+    "vite": "^5.4.11",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "dependencies": {
     "@noflake/fsd-gen": "workspace:^",
-    "express": "^4.21.2"
+    "@react-router/express": "^7.1.1",
+    "@react-router/node": "^7.1.1",
+    "@react-router/serve": "^7.1.1",
+    "express": "^4.21.2",
+    "isbot": "^5.1.17",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router": "^7.1.1"
   }
 }
