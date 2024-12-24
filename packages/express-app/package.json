@@ -12,7 +12,7 @@
   "scripts": {
     "lint": "eslint \"**/*.ts\"",
     "build": "pnpm build:compile && pnpm build:frontend",
-    "dev": "tsx ./devServer.ts",
+    "dev": "pnpm build && tsx ./devServer.ts",
     "build:frontend": "cross-env NODE_ENV=production react-router build",
     "build:compile": "react-router typegen && tsc"
   },

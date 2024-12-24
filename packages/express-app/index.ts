@@ -1,4 +1,6 @@
 import express from 'express';
+import { fileURLToPath } from 'url';
+import path from 'path';
 import { createRequestHandler } from '@react-router/express';
 import { createApp, INoFlake } from '@noflake/fsd-gen/server';
 
@@ -14,6 +16,8 @@ export function createExpressApp({ getApi }: CreateExpressAppOptions): express.E
 		// @ts-expect-error React router build output does not include types.
 		build: () => import('./build/server'),
 	});
+
+	app.use('/assets', express.static(path.join(path.dirname(fileURLToPath(import.meta.url)), 'build', 'client', 'assets')));
 
 	app.use('/app', frontendApp);
 
