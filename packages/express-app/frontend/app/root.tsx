@@ -15,7 +15,6 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
-	console.log('stylesheet', stylesheet);
 	return (
 		<html lang="en">
 			<head>
