@@ -6,6 +6,7 @@ import {
 	Scripts,
 	ScrollRestoration,
 } from 'react-router';
+import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 
 import type { Route } from './+types/root';
 import stylesheet from './app.css?url';
@@ -24,7 +25,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				<Links />
 			</head>
 			<body>
-				{children}
+				<ChakraProvider value={defaultSystem}>
+					{children}
+				</ChakraProvider>
 				<ScrollRestoration />
 				<Scripts />
 			</body>
