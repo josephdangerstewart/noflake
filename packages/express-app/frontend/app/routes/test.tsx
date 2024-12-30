@@ -1,4 +1,5 @@
 import { data, LoaderFunctionArgs, useLoaderData, useParams } from 'react-router';
+import { Heading } from '@chakra-ui/react';
 import { LoaderContext } from '../../../LoaderContext';
 import { getErrorCode } from '../../util/errorCodes';
 
@@ -35,7 +36,7 @@ export default function TestPage() {
 
 	return (
 		<div>
-			<h1>{projectId}: {testId}</h1>
+			<Heading size="3xl">{projectId}: {testId}</Heading>
 			<pre>
 				{JSON.stringify(history, null, 2)}
 			</pre>
