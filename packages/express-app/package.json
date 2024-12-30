@@ -14,9 +14,11 @@
     "build": "pnpm build:compile && pnpm build:frontend",
     "dev": "pnpm build && tsx ./devServer.ts",
     "build:frontend": "cross-env NODE_ENV=production react-router build",
-    "build:compile": "react-router typegen && tsc"
+    "build:compile": "react-router typegen && tsc",
+    "snippet": "chakra snippet add --outdir ./frontend/chakra"
   },
   "devDependencies": {
+    "@chakra-ui/cli": "^3.2.3",
     "@noflake/eslint-config": "workspace:^",
     "@noflake/node-api": "workspace:^",
     "@noflake/typescript-config": "workspace:^",

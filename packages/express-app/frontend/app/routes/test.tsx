@@ -1,7 +1,15 @@
-import { data, LoaderFunctionArgs, useLoaderData, useParams } from 'react-router';
-import { Heading } from '@chakra-ui/react';
+import {
+	data,
+	LoaderFunctionArgs,
+	useLoaderData,
+	useParams,
+} from 'react-router';
+import { Heading, Text } from '@chakra-ui/react';
 import { LoaderContext } from '../../../LoaderContext';
 import { getErrorCode } from '../../util/errorCodes';
+import { ListBox } from '../../components';
+import { Status } from '../../chakra/status';
+import { IHistoricalTestResult, TestResultStatus } from '@noflake/fsd-gen';
 
 export const loader = async ({
 	context,
@@ -36,10 +44,30 @@ export default function TestPage() {
 
 	return (
 		<div>
-			<Heading size="3xl">{projectId}: {testId}</Heading>
-			<pre>
-				{JSON.stringify(history, null, 2)}
-			</pre>
+			<Heading size="3xl">
+				{projectId}: {testId}
+			</Heading>
+			<ListBox>
+				{history.map((item) => (
+					<ListBox.Item key={item.suiteRun?.runDate}>
+						<TestResultItem result={item} />
+					</ListBox.Item>
+				))}
+			</ListBox>
 		</div>
 	);
+}
+
+function TestResultItem({ result }: { result?: IHistoricalTestResult }) {
+	const color = result?.testResult?.status == TestResultStatus.pass ? 'success' : 'error';
+
+	if (!result?.testResult || !result.suiteRun?.runDate) {
+		return null;
+	}
+
+	return (
+		<Status value={color}>
+			<Text>{result?.suiteRun?.runDate}</Text>
+		</Status>
+	)
 }
