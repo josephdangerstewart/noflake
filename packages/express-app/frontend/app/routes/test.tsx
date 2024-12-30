@@ -10,6 +10,7 @@ import { getErrorCode } from '../../util/errorCodes';
 import { ListBox } from '../../components';
 import { Status } from '../../chakra/status';
 import { IHistoricalTestResult, TestResultStatus } from '@noflake/fsd-gen';
+import { useState } from 'react';
 
 export const loader = async ({
 	context,
@@ -40,26 +41,37 @@ export const loader = async ({
 
 export default function TestPage() {
 	const { history } = useLoaderData<typeof loader>() ?? { history: [] };
-	const { testId, projectId } = useParams();
+	const { testId } = useParams();
+	const [selectedItem, setSelectedItem] = useState<IHistoricalTestResult | undefined>();
 
 	return (
 		<div>
 			<Heading size="3xl">
-				{projectId}: {testId}
+				{testId}
 			</Heading>
 			<ListBox>
 				{history.map((item) => (
-					<ListBox.Item key={item.suiteRun?.runDate}>
+					<ListBox.Item
+						onToggle={(isSelected) =>
+							isSelected ? setSelectedItem(item) : setSelectedItem(undefined)
+						}
+						isSelected={item === selectedItem}
+						key={item.suiteRun?.runDate}
+					>
 						<TestResultItem result={item} />
 					</ListBox.Item>
 				))}
 			</ListBox>
+			{selectedItem && (
+				<TestResultDetails result={selectedItem} />
+			)}
 		</div>
 	);
 }
 
 function TestResultItem({ result }: { result?: IHistoricalTestResult }) {
-	const color = result?.testResult?.status == TestResultStatus.pass ? 'success' : 'error';
+	const color =
+		result?.testResult?.status == TestResultStatus.pass ? 'success' : 'error';
 
 	if (!result?.testResult || !result.suiteRun?.runDate) {
 		return null;
@@ -69,5 +81,9 @@ function TestResultItem({ result }: { result?: IHistoricalTestResult }) {
 		<Status value={color}>
 			<Text>{result?.suiteRun?.runDate}</Text>
 		</Status>
-	)
+	);
+}
+
+function TestResultDetails({ result }: { result: IHistoricalTestResult }) {
+	return <Text>{result.suiteRun?.context}</Text>;
 }
