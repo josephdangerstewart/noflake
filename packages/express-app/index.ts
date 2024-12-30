@@ -8,7 +8,9 @@ export interface CreateExpressAppOptions {
 	getApi: (request: express.Request) => Promise<INoFlake>;
 }
 
-export function createExpressApp({ getApi }: CreateExpressAppOptions): express.Express {
+export function createExpressApp(options: CreateExpressAppOptions): express.Express {
+	const { getApi } = options;
+	const { __private = {} } = options as any;
 	const app = express();
 
 	app.use(async (request, _, next) => {
@@ -20,7 +22,7 @@ export function createExpressApp({ getApi }: CreateExpressAppOptions): express.E
 	const frontendApp = createRequestHandler({
 		// TODO: Add type gen to build
 		// @ts-expect-error React router build output does not include types.
-		build: () => import('./build/server'),
+		build: __private.getServer ?? (() => import('./build/server')),
 		getLoadContext: (request) => (request as any).__noflake,
 	});
 

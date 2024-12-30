@@ -1,4 +1,5 @@
-import { createExpressApp } from './index';
+import { createExpressApp, CreateExpressAppOptions } from './index';
+import { createServer } from 'vite';
 import {
 	NoFlakeApi,
 	initializeDatabase,
@@ -25,7 +26,12 @@ const databaseOptions: DatabaseConnectionOptions = {
 async function main() {
 	await initializeDatabase(databaseOptions);
 
-	const app = createExpressApp({
+	const viteServer = await createServer({
+		server: { middlewareMode: true },
+		appType: 'custom',
+	});
+
+	const options = {
 		getApi: () =>
 			Promise.resolve(
 				new NoFlakeApi({
@@ -33,8 +39,13 @@ async function main() {
 					permissionService: new AdminPermissionService(),
 				}),
 			),
-	});
+		__private: {
+			getServer: () => viteServer.ssrLoadModule('virtual:react-router/server-build')
+		}
+	} as CreateExpressAppOptions;
+	const app = createExpressApp(options);
 
+	app.use(viteServer.middlewares);
 	app.listen(8080, () => console.log('server listening on 8080'));
 }
 
