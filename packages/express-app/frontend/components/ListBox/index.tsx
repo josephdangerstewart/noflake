@@ -30,8 +30,9 @@ function ListBoxItem({
 			ref={virtualFocusChildRef}
 			padding="2"
 			role="option"
-			bg={isSelected ? 'bg.emphasized' : 'bg'}
+			bg={isSelected ? 'blue.subtle' : 'bg'}
 			onClick={() => onToggle?.(!isSelected)}
+			focusRingColor={isSelected ? 'blue.focusRing' : 'bg'}
 			cursor="menuitem"
 			userSelect="none"
 		>
