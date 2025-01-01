@@ -4,10 +4,10 @@ import {
 	useLoaderData,
 	useParams,
 } from 'react-router';
-import { Heading, Text } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 import { LoaderContext } from '../../../LoaderContext';
 import { getErrorCode } from '../../util/errorCodes';
-import { ListBox } from '../../components';
+import { ListBox, LeftSidebarLayout } from '../../components';
 import { Status } from '../../chakra/status';
 import { IHistoricalTestResult, TestResultStatus } from '@noflake/fsd-gen';
 import { useState } from 'react';
@@ -45,27 +45,31 @@ export default function TestPage() {
 	const [selectedItem, setSelectedItem] = useState<IHistoricalTestResult | undefined>();
 
 	return (
-		<div>
-			<Heading size="3xl">
+		<LeftSidebarLayout>
+			<LeftSidebarLayout.Heading size="3xl">
 				{testId}
-			</Heading>
-			<ListBox>
-				{history.map((item) => (
-					<ListBox.Item
-						onToggle={(isSelected) =>
-							isSelected ? setSelectedItem(item) : setSelectedItem(undefined)
-						}
-						isSelected={item === selectedItem}
-						key={item.suiteRun?.runDate}
-					>
-						<TestResultItem result={item} />
-					</ListBox.Item>
-				))}
-			</ListBox>
+			</LeftSidebarLayout.Heading>
+			<LeftSidebarLayout.Sidebar>
+				<ListBox>
+					{history.map((item) => (
+						<ListBox.Item
+							onToggle={(isSelected) =>
+								isSelected ? setSelectedItem(item) : setSelectedItem(undefined)
+							}
+							isSelected={item === selectedItem}
+							key={item.suiteRun?.runDate}
+						>
+							<TestResultItem result={item} />
+						</ListBox.Item>
+					))}
+				</ListBox>
+			</LeftSidebarLayout.Sidebar>
 			{selectedItem && (
-				<TestResultDetails result={selectedItem} />
+				<LeftSidebarLayout.Main>
+					<TestResultDetails result={selectedItem} />
+				</LeftSidebarLayout.Main>
 			)}
-		</div>
+		</LeftSidebarLayout>
 	);
 }
 
