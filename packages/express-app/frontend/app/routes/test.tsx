@@ -4,14 +4,14 @@ import {
 	useLoaderData,
 	useParams,
 } from 'react-router';
-import { Text, Heading, Span } from '@chakra-ui/react';
+import { Text, Heading, Span, HStack } from '@chakra-ui/react';
 import { LoaderContext } from '../../../LoaderContext';
 import { getErrorCode } from '../../util/errorCodes';
 import { ListBox, LeftSidebarLayout } from '../../components';
 import { Status } from '../../chakra/status';
 import { IHistoricalTestResult, TestResultStatus } from '@noflake/fsd-gen';
 import { useMemo, useState } from 'react';
-import { count } from '../../util/listUtil';
+import { count, uniqueValues } from '../../util/listUtil';
 
 export const loader = async ({
 	context,
@@ -53,7 +53,16 @@ export default function TestPage() {
 				history,
 				(item) => item.testResult?.status !== TestResultStatus.pass,
 			),
-		[],
+		[history],
+	);
+
+	const uniqueErrorsCount = useMemo(
+		() =>
+			uniqueValues(
+				history.filter((x) => x.testResult?.status === TestResultStatus.fail),
+				(item) => JSON.stringify(item.testResult?.errors).trim().toLowerCase(),
+			).length,
+		[history],
 	);
 
 	return (
@@ -62,9 +71,17 @@ export default function TestPage() {
 				<Heading size="3xl">Test History - {testId}</Heading>
 			</LeftSidebarLayout.Heading>
 			<LeftSidebarLayout.SubHeading>
-				<Heading size="xl">
-					<Span textDecoration="underline">{failedCount}</Span> failed in last <Span textDecoration="underline">{history.length}</Span> runs
-				</Heading>
+				<HStack gap="6">
+					<Heading size="xl">
+						<Span textDecoration="underline">{failedCount}</Span> failed in last{' '}
+						<Span textDecoration="underline">{history.length}</Span> runs
+					</Heading>
+					{uniqueErrorsCount > 0 && (
+						<Heading size="xl">
+							<Span textDecoration="underline">{uniqueErrorsCount}</Span> distinct error{uniqueErrorsCount > 1 ? 's' : ''}
+						</Heading>
+					)}
+				</HStack>
 			</LeftSidebarLayout.SubHeading>
 			<LeftSidebarLayout.Sidebar>
 				<ListBox>
