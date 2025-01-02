@@ -4,13 +4,21 @@ import {
 	useLoaderData,
 	useParams,
 } from 'react-router';
-import { Text, Heading, Span, HStack } from '@chakra-ui/react';
+import {
+	Text,
+	Heading,
+	Span,
+	HStack,
+	VStack,
+	Box,
+	Code,
+} from '@chakra-ui/react';
 import { LoaderContext } from '../../../LoaderContext';
 import { getErrorCode } from '../../util/errorCodes';
 import { ListBox, LeftSidebarLayout } from '../../components';
 import { Status } from '../../chakra/status';
 import { IHistoricalTestResult, TestResultStatus } from '@noflake/fsd-gen';
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { count, uniqueValues } from '../../util/listUtil';
 
 export const loader = async ({
@@ -73,12 +81,15 @@ export default function TestPage() {
 			<LeftSidebarLayout.SubHeading>
 				<HStack gap="6">
 					<Heading size="xl">
-						<Span textDecoration="underline">{failedCount}</Span> failed in last{' '}
-						<Span textDecoration="underline">{history.length}</Span> runs
+						last <Span textDecoration="underline">{history.length}</Span> runs
+					</Heading>
+					<Heading size="xl">
+						<Span textDecoration="underline">{failedCount}</Span> failed
 					</Heading>
 					{uniqueErrorsCount > 0 && (
 						<Heading size="xl">
-							<Span textDecoration="underline">{uniqueErrorsCount}</Span> distinct error{uniqueErrorsCount > 1 ? 's' : ''}
+							<Span textDecoration="underline">{uniqueErrorsCount}</Span>{' '}
+							distinct error{uniqueErrorsCount > 1 ? 's' : ''}
 						</Heading>
 					)}
 				</HStack>
@@ -123,5 +134,24 @@ function TestResultItem({ result }: { result?: IHistoricalTestResult }) {
 }
 
 function TestResultDetails({ result }: { result: IHistoricalTestResult }) {
-	return <Text>{result.suiteRun?.context}</Text>;
+	console.log(result);
+	return (
+		<VStack gap="4" padding="4" align="left">
+			<Box>Put links here</Box>
+			<Box>
+				{result.testResult?.errors?.length ?? 0 > 0 ? (
+					<Code size="lg">
+						{result.testResult?.errors?.map((error, index) => (
+							<React.Fragment key={`${error}${index}`}>
+								<Span>{error}</Span>
+								<br />
+							</React.Fragment>
+						))}
+					</Code>
+				) : (
+					<Text>No errors</Text>
+				)}
+			</Box>
+		</VStack>
+	);
 }
