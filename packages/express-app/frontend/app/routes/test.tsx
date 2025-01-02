@@ -47,7 +47,7 @@ export default function TestPage() {
 	return (
 		<LeftSidebarLayout>
 			<LeftSidebarLayout.Heading size="3xl">
-				{testId}
+				Test History - {testId}
 			</LeftSidebarLayout.Heading>
 			<LeftSidebarLayout.Sidebar>
 				<ListBox>

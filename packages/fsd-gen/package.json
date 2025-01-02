@@ -6,6 +6,7 @@
     "./client": "./dist/noFlake.js",
     "./server": "./dist/noFlakeServer.js"
   },
+  "type": "module",
   "files": ["dist"],
   "license": "MIT",
   "scripts": {
