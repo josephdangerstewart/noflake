@@ -29,6 +29,7 @@ function ListBoxItem({
 			tabIndex={-1}
 			ref={virtualFocusChildRef}
 			padding="2"
+			paddingLeft="4"
 			role="option"
 			bg={isSelected ? 'blue.subtle' : 'bg'}
 			onClick={() => onToggle?.(!isSelected)}
