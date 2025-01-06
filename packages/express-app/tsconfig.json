@@ -13,6 +13,7 @@
 		"rootDirs": [".", "./.react-router/types"],
 		"paths": {
 			"~/*": ["./frontend/app/*"]
-		}
+		},
+		"esModuleInterop": false
 	}
 }
