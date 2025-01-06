@@ -1,6 +1,5 @@
-import { VStack, Box, Code, Span, Text } from '@chakra-ui/react';
+import { VStack, Box, Code, Text } from '@chakra-ui/react';
 import { IHistoricalTestResult } from '@noflake/fsd-gen';
-import React from 'react';
 
 export function TestResultDetails({
 	result,
@@ -13,13 +12,8 @@ export function TestResultDetails({
 			<Box>Put links here</Box>
 			<Box>
 				{result.testResult?.errors?.length ?? 0 > 0 ? (
-					<Code size="lg">
-						{result.testResult?.errors?.map((error, index) => (
-							<React.Fragment key={`${error}${index}`}>
-								<Span>{error}</Span>
-								<br />
-							</React.Fragment>
-						))}
+					<Code size="lg" whiteSpace="pre" display="block">
+						{result.testResult?.errors?.join('\n')}
 					</Code>
 				) : (
 					<Text>No errors</Text>
