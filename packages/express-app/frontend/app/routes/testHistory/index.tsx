@@ -1,8 +1,5 @@
 import { useState } from 'react';
-import {
-	useLoaderData,
-	useParams,
-} from 'react-router';
+import { useLoaderData, useParams } from 'react-router';
 import { Text, Heading, Span, HStack } from '@chakra-ui/react';
 import { IHistoricalTestResult, TestResultStatus } from '@noflake/fsd-gen';
 import { ListBox, LeftSidebarLayout } from '../../../components';
@@ -50,7 +47,13 @@ export default function TestPage() {
 							onToggle={(isSelected) =>
 								isSelected ? setSelectedItem(item) : setSelectedItem(undefined)
 							}
-							isSelected={item === selectedItem}
+							state={
+								item === selectedItem
+									? 'selected'
+									: haveSameError(selectedItem, item)
+										? 'emphasized'
+										: 'default'
+							}
 							key={item.suiteRun?.runDate}
 						>
 							<TestResultItem result={item} />
@@ -80,4 +83,22 @@ function TestResultItem({ result }: { result?: IHistoricalTestResult }) {
 			<Text>{result?.suiteRun?.runDate}</Text>
 		</Status>
 	);
+}
+
+function haveSameError(
+	left?: IHistoricalTestResult,
+	right?: IHistoricalTestResult,
+) {
+	if ([left?.testResult?.status, right?.testResult?.status].includes(TestResultStatus.pass)) {
+		return false;
+	}
+
+	return getNormalizedError(left) === getNormalizedError(right);
+}
+
+function getNormalizedError(item?: IHistoricalTestResult) {
+	return item?.testResult?.errors
+		?.map((x) => x.trim())
+		.join('')
+		.toLowerCase();
 }

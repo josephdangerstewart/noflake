@@ -4,8 +4,10 @@ import { useCallback, useRef } from 'react';
 import { useHotkey } from '../useHotkey';
 import { useCombineRefs } from '../useCombineRefs';
 
+export type ListBoxItemState = 'default' | 'selected' | 'emphasized';
+
 export interface ListBoxItemProps {
-	isSelected?: boolean;
+	state?: ListBoxItemState;
 	onToggle?: (isSelected: boolean) => void;
 }
 
@@ -16,9 +18,10 @@ interface FocusMeta {
 
 function ListBoxItem({
 	children,
-	isSelected,
+	state,
 	onToggle,
 }: React.PropsWithChildren<ListBoxItemProps>) {
+	const isSelected = state === 'selected';
 	const virtualFocusChildRef = useVirtualFocusChild<FocusMeta>({
 		onToggle: () => onToggle?.(!isSelected),
 		isSelected,
@@ -31,7 +34,7 @@ function ListBoxItem({
 			padding="2"
 			paddingLeft="4"
 			role="option"
-			bg={isSelected ? 'blue.subtle' : 'bg'}
+			bg={state === 'selected' ? 'blue.muted' : state === 'emphasized' ? 'blue.subtle' : 'bg'}
 			onClick={() => onToggle?.(!isSelected)}
 			focusRingColor={isSelected ? 'blue.focusRing' : 'bg'}
 			cursor="menuitem"

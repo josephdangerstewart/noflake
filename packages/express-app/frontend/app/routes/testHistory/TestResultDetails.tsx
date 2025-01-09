@@ -12,7 +12,7 @@ export function TestResultDetails({
 			<Box>Put links here</Box>
 			<Box>
 				{result.testResult?.errors?.length ?? 0 > 0 ? (
-					<Code size="lg" whiteSpace="pre" display="block">
+					<Code size="lg" whiteSpace="pre" display="block" padding="3">
 						{result.testResult?.errors?.join('\n')}
 					</Code>
 				) : (
